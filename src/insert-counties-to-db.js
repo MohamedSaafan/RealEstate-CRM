@@ -1,9 +1,7 @@
 const { counties } = require("./constants/counties-string");
 
-const example = [
-  "51780        South Boston city                (After 1990, part of Halifax County)",
-];
 const countiesStrArr = counties.split("\n");
+
 const countiesObjArr = countiesStrArr.map((county) => {
   let countyNameRegExp = /\s.+\w+\s\s/g;
   const countyName = county.match(countyNameRegExp)

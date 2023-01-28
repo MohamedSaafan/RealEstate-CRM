@@ -1,4 +1,4 @@
-module.exports = `01        ALABAMA
+const states = `01        ALABAMA
 02        ALASKA
 04        ARIZONA
 05        ARKANSAS
@@ -49,3 +49,4 @@ module.exports = `01        ALABAMA
 54        WEST VIRGINIA
 55        WISCONSIN
 56        WYOMING`;
+module.exports = { states };

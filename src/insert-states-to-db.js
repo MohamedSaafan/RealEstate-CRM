@@ -1,4 +1,4 @@
-const states = require("./constants/states-string");
+const { states } = require("./constants/states-string");
 
 // confirm them into an array of object
 
