@@ -41,20 +41,14 @@ exports.up = (pgm) => {
         property_additional_data JSON,
         created_on TIMESTAMP DEFAULT now() NOT NULL, 
         updated_on TIMESTAMP DEFAULT now() NOT NULL
-    )
+    );
     
-    CREATE FUNCTION sync_lastmod() RETURNS trigger AS $$
-      BEGIN
-        NEW.updated_on := NOW();
-
-        RETURN NEW;
-      END;
-      $$ LANGUAGE plpgsql;
+  
 
       CREATE TRIGGER
         sync_lastmod
       BEFORE UPDATE ON
-        properties
+        property
       FOR EACH ROW EXECUTE PROCEDURE
         sync_lastmod();
 
