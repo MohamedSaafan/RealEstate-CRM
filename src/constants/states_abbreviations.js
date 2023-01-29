@@ -59,5 +59,6 @@ const statesAbbreviations = {
   WI: "Wisconsin",
   WY: "Wyoming",
 };
+console.log(Object.keys(statesAbbreviations).length);
 
 module.exports.statesAbbreviations = statesAbbreviations;

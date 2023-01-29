@@ -1,25 +1,33 @@
-const { states } = require("./constants/states-string");
-const { statesAbbreviations } = require("./constants/states_abbreviations");
-// confirm them into an array of object
-const abbreviationsKeys = Object.keys(statesAbbreviations);
-const statesStrArr = states.split("\n");
-const statesObjARr = statesStrArr.map((stateStr) => {
-  const stateFips = +stateStr.trim().substring(0, 2);
-  const stateLong = stateStr.trim().substring(2).trim();
-  let stateAbbr;
-  for (let i = 0; i < abbreviationsKeys.length; i++) {
-    if (
-      statesAbbreviations[abbreviationsKeys[i]].toLowerCase() ===
-      stateLong.toLowerCase()
-    ) {
-      stateAbbr = abbreviationsKeys[i];
-      break;
+const { states } = require("./constants/statesFull");
+
+const pool = require("../config/db");
+const insertState = async (stateFips, stateLong, stateAbbr) => {
+  try {
+    const existingState = await pool.query(
+      `select count(*) from state where state_fips=${stateFips}`
+    );
+    if (existingState.rows[0].count == 1) {
+      console.log(existingState.rows, stateFips);
+      console.log("state already exist!!");
+
+      return;
     }
+    const queryResult = await pool.query(
+      "INSERT INTO state (state_short,state_long,state_fips) values ($1,$2,$3)",
+      [stateAbbr, stateLong, stateFips]
+    );
+    console.log("inserted successfully");
+  } catch (err) {
+    console.log(err, "from error");
+    console.log("error inserting into the DB");
   }
-  return {
-    stateFips,
-    stateLong,
-    stateAbbr,
-  };
-});
-console.log(statesObjARr, "from ");
+};
+
+const insertStates = async () => {
+  for (let i = 0; i < states.length; i++) {
+    const { stateFips, stateLong, stateAbbr } = states[i];
+    await insertState(stateFips, stateLong, stateAbbr);
+  }
+};
+
+insertStates();
