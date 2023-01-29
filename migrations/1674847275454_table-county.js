@@ -3,6 +3,8 @@
 exports.shorthands = undefined;
 
 exports.up = (pgm) => {
+  // there is a mistake under
+  // county_id should be state_id and it is corrected in a migration file
   pgm.sql(`
     CREATE TABLE county(
         fips_short INTEGER PRIMARY KEY,
